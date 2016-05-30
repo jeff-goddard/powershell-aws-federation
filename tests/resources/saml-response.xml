@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">
+  <Assertion  xmlns="urn:oasis:names:tc:SAML:2.0:assertion">
+    <AttributeStatement>
+      <Attribute Name="https://aws.amazon.com/SAML/Attributes/RoleSessionName">
+        <AttributeValue>tester@example.com</AttributeValue>
+      </Attribute>
+      <Attribute Name="https://aws.amazon.com/SAML/Attributes/Role">
+        <AttributeValue>arn:aws:iam::1234:saml-provider/test,arn:aws:iam::1234:role/test-role1</AttributeValue>
+        <AttributeValue>arn:aws:iam::5678:saml-provider/test,arn:aws:iam::5678:role/test-role2</AttributeValue>
+      </Attribute>
+    </AttributeStatement>
+  </Assertion>
+</samlp:Response>
