@@ -2,21 +2,19 @@ Properties {
     $version = '0.0.0'
 }
 
-
 Task -Name Default -Depends Test
 
-
 Task -Name Package -Depends Clean,Test, Version  {
-    $buildPath = "./Build/Dist/AwsFederation/$script:version/"
+    $buildPath = "./Build/Dist/AwsFederation/"
     New-Item -ItemType Directory -Force $buildPath
     Copy-Item -Recurse ./src/* $buildPath
-    
-    $manifest = Get-Content  $buildPath/AwsFederation.psd1  
+
+    $manifest = Get-Content  $buildPath/AwsFederation.psd1
     $manifest = $manifest -Replace '%%VERSION%%', "$script:version"
     Set-Content $buildPath/AwsFederation.psd1 $manifest
 }
 
-Task -Name Install -Depends Package {
+Task -Name Install -Depends Package,UnInstall {
     $personalModulePath = Join-Path $([Environment]::GetFolderPath("MyDocuments")) 'WindowsPowerShell/Modules/'
     New-Item -ItemType Directory -Force $personalModulePath
     Copy-Item -Recurse -Force ./Build/Dist/* $personalModulePath
@@ -32,7 +30,7 @@ Task Test  {
 }
 
 Task -Name Clean  {
-    Remove-Item -Recurse -Force .\build
+    Remove-Item -Recurse -Force ./Build
 }
 
 Task -Name Version  {
@@ -40,3 +38,11 @@ Task -Name Version  {
     Write-Output "Version $script:version"
 }
 
+Task -Name UnInstall {
+    $personalModulePath = Join-Path $([Environment]::GetFolderPath("MyDocuments")) 'WindowsPowerShell/Modules/'
+    $modulePath = "$personalModulePath/AwsFederation/0.0.1"
+    if(Test-Path $modulePath)
+    {
+        Remove-Item -Recurse -Force $modulePath
+    }
+}
