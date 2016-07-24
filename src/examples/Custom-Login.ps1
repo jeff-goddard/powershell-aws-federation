@@ -13,8 +13,7 @@ function Invoke-CustomFederatedAwsLogin($uri)
     $loginForm.Fields['username'] = $credentials.UserName
     $loginForm.Fields['password'] = $credentials.GetNetworkCredential().Password
 
-    $response = Invoke-WebRequest -Uri $loginUri -Method POST -Body $loginForm
-    
-    return $response.ParsedHtml
+    $response = Invoke-WebRequest -Uri $loginUri -Method POST -Body $loginForm -UseBasicParsing
 
+    return $response
 }

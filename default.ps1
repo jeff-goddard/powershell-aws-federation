@@ -6,7 +6,7 @@ Task -Name Default -Depends Test
 
 Task -Name Package -Depends Clean,Test, Version  {
     $buildPath = "./Build/Dist/AwsFederation/"
-    New-Item -ItemType Directory -Force $buildPath
+    New-Item -ItemType Directory  $buildPath
     Copy-Item -Recurse ./src/* $buildPath
 
     $manifest = Get-Content  $buildPath/AwsFederation.psd1

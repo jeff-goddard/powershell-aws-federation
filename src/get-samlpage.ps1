@@ -21,7 +21,7 @@ function GetSamlPage($uri)
     }
     else
     {
-        $response = Invoke-WebRequest -Uri $uri -UseDefaultCredentials -TimeoutSec 120
-        return $response.ParsedHtml
+        $response = Invoke-WebRequest -Uri $uri -UseDefaultCredentials -UseBasicParsing
+        return $response
     }
 }

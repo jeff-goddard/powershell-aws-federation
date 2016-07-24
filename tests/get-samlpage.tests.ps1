@@ -11,7 +11,7 @@ Describe 'GetSamlPage' {
       Mock Get-Command {throw 'oops'} `
           -ParameterFilter {$Name -eq 'Invoke-CustomFederatedAwsLogin'}
 
-      Mock Invoke-WebRequest { return @{ParsedHtml = 'baz'} } `
+      Mock Invoke-WebRequest { return  'baz' } `
           -ParameterFilter {$Uri -eq 'foo://bar/'}
 
       $actual = GetSamlPage 'foo://bar'
