@@ -6,7 +6,7 @@ function ParseSamlPage($samlPage)
 {
     try
     {
-        $assertion = $($samlPage.getElementsByName('SAMLResponse')[0]).Value
+        $assertion = $samlPage.InputFields.Find('SAMLResponse').Value
         $samlXml = GetSamlXml $assertion
         $roles = GetRolesFromSamlXml $samlXml
         return @{
