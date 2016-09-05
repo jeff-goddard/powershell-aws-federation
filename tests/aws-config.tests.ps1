@@ -39,7 +39,7 @@ Describe 'GetAwsConfig' {
 
 Describe 'SetAwsFederationConfig' {
     It 'Should save the config file correctly' {
-        $date = [DateTime]::Parse('2001-01-01T00:00:00.0000000+00:00')
+        $date = [DateTime]::Parse('2001-01-01T00:00:00.0000000Z')
         $config = @{
             Default = 'role1';
             FederationUri  = 'http://adfs.example.com/adfs/ls/IdpInitiatedSignOn.aspx?loginToRp=urn:amazon:webservices'
@@ -51,7 +51,7 @@ Describe 'SetAwsFederationConfig' {
            AccessKeyId = 'access';
            SecretAccessKey = 'secret';
            SessionToken='Session';
-           Expiration=$date;
+           Expiration='2001-01-01T00:00:00Z';
         }
         
         $expected = Get-Content './tests/resources/federated.config' -raw
@@ -63,7 +63,7 @@ Describe 'SetAwsFederationConfig' {
         $actual | Should Be $expected
     }    
     
-      It 'Should set adefault in the config file' {
+      It 'Should set a default in the config file' {
         $date = [DateTime]::Parse('2001-01-01T00:00:00.0000000+00:00')
         $config = @{
             Default = 'role1';
@@ -126,7 +126,7 @@ Describe 'GetConfigCredentials' {
     }
     
     It 'Should get null if not found' {
-        $date = [DateTime]::Parse('2001-01-01T00:00:00.0000000+00:00')
+        $date = [DateTime]::Parse('2001-01-01T00:00:00.0000000Z')
         $config = [ordered] @{
             default = @{
                 output='json';
@@ -148,6 +148,15 @@ Describe 'GetConfigCredentials' {
             
         
        $actual = GetAwsCredentials $config 'role2'
+        
+       $actual | Should BeNullOrEmpty
+    }
+
+    It 'Should get null if null passed in' {
+ 
+ 
+        
+       $actual = GetAwsCredentials $null 'role2'
         
        $actual | Should BeNullOrEmpty
     }

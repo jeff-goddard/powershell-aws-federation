@@ -2,11 +2,12 @@
 #   License, v. 2.0. If a copy of the MPL was not distributed with this
 #   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-. "$PsScriptRoot/get-samlpage.ps1"
-. "$PsScriptRoot/parse-samlpage.ps1"
-. "$PsScriptRoot/awsfederation-config.ps1"
 . "$PsScriptRoot/aws-config.ps1"
+. "$PsScriptRoot/awsfederation-config.ps1"
 . "$PsScriptRoot/get-credentials.ps1"
+. "$PsScriptRoot/get-samlpage.ps1"
+. "$PsScriptRoot/invoke-awscommand.ps1"
+. "$PsScriptRoot/parse-samlpage.ps1"
 
 
 function Set-AwsFederationConfig 
@@ -104,7 +105,7 @@ function Get-AwsFederationCredentials
     {
         $samlPage = GetSamlPage $config.FederationUri
         $samlObject = ParseSamlPage $samlPage    
-        $credentials = getCredentials $samlObject.Assertion $profileObject $config.Region
+        $credentials = getCredentials $samlObject.Assertion $profileObject
         SetAwsConfig $profileName  $credentials $config $(awsConfigFilePath)
     }
 
@@ -129,7 +130,7 @@ function Invoke-AwsFederationWrapper
     }
     
     Get-AwsFederationCredentials -Profile $profileName
-    aws.exe $args
+    InvokeAwsCommand $args
 } 
 
 Set-Alias awswrapper Invoke-AwsFederationWrapper

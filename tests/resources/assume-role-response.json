@@ -1,0 +1,17 @@
+{
+    "SubjectType": "persistent",
+    "AssumedRoleUser": {
+        "AssumedRoleId": "foo",
+        "Arn": "arn:"
+    },
+    "Audience": "https://signin.aws.amazon.com/saml",
+    "NameQualifier": "1234",
+    "Credentials": {
+        "SecretAccessKey": "foo",
+        "SessionToken": "bar",
+        "Expiration": "2000-01-01T00:00:00Z",
+        "AccessKeyId": "baz"
+    },
+    "Subject": "user",
+    "Issuer": "http://example.com/"
+}

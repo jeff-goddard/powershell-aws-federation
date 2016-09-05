@@ -66,7 +66,7 @@ function GetAwsCredentials($config, $name)
 }
 
 
-function copyCredentialsFromConfigObject($creds, $config)
+function copyCredentialsFromConfigObject($creds)
 {
     if($creds -eq $null)
     {
@@ -93,7 +93,7 @@ function copyCredentialsToConfigObject($creds, $config)
         aws_access_key_id = $creds.AccessKeyId;
         aws_secret_access_key = $creds.SecretAccessKey;
         aws_session_token = $creds.SessionToken;
-        expiration = $creds.Expiration.tostring('o')
+        expiration = [DateTime]::Parse($creds.Expiration).ToUniversalTime().ToString('o')
     }
     
 }
