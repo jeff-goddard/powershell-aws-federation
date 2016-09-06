@@ -9,12 +9,12 @@ function GetAwsCommand
     $command = $commands | `
         Where-Object {$_.Commandtype -ne [System.Management.Automation.CommandTypes]::Alias } | `
         Select-Object -First 1
-    
-    return $command.Source
+
+    return $command.Path
 }
 
 function InvokeAwsCommand($arguments)
-{ 
+{
     $command = GetAwsCommand
     return & $command $arguments
 }

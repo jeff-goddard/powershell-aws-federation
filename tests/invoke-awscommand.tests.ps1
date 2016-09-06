@@ -8,11 +8,11 @@ Describe 'GetAwsCommand' {
         Mock Get-Command {return (
             @{
                 CommandType = [System.Management.Automation.CommandTypes]::Alias
-                Source = 'foo'
+                Path = 'foo'
             },
             @{
                 CommandType = [System.Management.Automation.CommandTypes]::Function
-                Source = 'bar'
+                Path = 'bar'
         })}
 
         $actual = GetAwsCommand
@@ -31,7 +31,7 @@ Describe 'InvokeAwsCommand' {
             return 'baz'
         }
         Mock GetAwsCommand  {'AwsCommand'}
-            
+
         $actual = InvokeAwsCommand $arguments
 
         $actual | Should Be 'baz'
