@@ -110,6 +110,8 @@ function Get-AwsFederationCredentials
     }
 
     $env:AWS_CONFIG_FILE = $(awsConfigFilePath)
+
+    return $credentials
 }
 
 function Invoke-AwsFederationWrapper
@@ -129,7 +131,7 @@ function Invoke-AwsFederationWrapper
         }
     }
     
-    Get-AwsFederationCredentials -Profile $profileName
+    $credentials = Get-AwsFederationCredentials -Profile $profileName
     InvokeAwsCommand $args
 } 
 
