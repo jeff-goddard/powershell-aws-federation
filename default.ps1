@@ -30,7 +30,7 @@ Task Test  {
 }
 
 Task -Name Clean  {
-    Remove-Item -Recurse -Force ./Build
+    Remove-Item -Recurse -Force -ErrorAction Ignore ./Build
 }
 
 Task -Name Version  {
