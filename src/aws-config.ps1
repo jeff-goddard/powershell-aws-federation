@@ -11,7 +11,7 @@ function GetAwsConfig($path)
         $config = convertFromIniFormat $(Get-Content -Raw $path 2> $null)
         $config.Values | ForEach-Object {            
             if($_.expiration) {
-                 $_.expiration = [DateTime]::Parse($_.expiration)
+                 $_.expiration = $([DateTime] $_.expiration)
             }
         }
         return $config
@@ -93,7 +93,7 @@ function copyCredentialsToConfigObject($creds, $config)
         aws_access_key_id = $creds.AccessKeyId;
         aws_secret_access_key = $creds.SecretAccessKey;
         aws_session_token = $creds.SessionToken;
-        expiration = [DateTime]::Parse($creds.Expiration).ToUniversalTime().ToString('o')
+        expiration = $([DateTime] $creds.Expiration).ToUniversalTime().ToString('o')
     }
     
 }

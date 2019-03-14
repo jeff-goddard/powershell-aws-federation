@@ -15,7 +15,9 @@ Task -Name Package -Depends Clean,Test, Version  {
 }
 
 Task -Name Install -Depends Package,UnInstall {
-    $personalModulePath = Join-Path $([Environment]::GetFolderPath("MyDocuments")) 'WindowsPowerShell/Modules/'
+
+    $personalModulePath = $env:PSModulePath.Split(';').Split(':') | ? {$_.StartsWith($(Resolve-Path '~'))} | select-object -First 1
+    
     New-Item -ItemType Directory -Force $personalModulePath
     Copy-Item -Recurse -Force ./Build/Dist/* $personalModulePath
 }
@@ -39,7 +41,7 @@ Task -Name Version  {
 }
 
 Task -Name UnInstall {
-    $personalModulePath = Join-Path $([Environment]::GetFolderPath("MyDocuments")) 'WindowsPowerShell/Modules/'
+    $personalModulePath = $env:PSModulePath.Split(';').Split(':') | ? {$_.StartsWith($(Resolve-Path '~'))} | select-object -First 1
     $modulePath = "$personalModulePath/AwsFederation/0.0.1"
     if(Test-Path $modulePath)
     {

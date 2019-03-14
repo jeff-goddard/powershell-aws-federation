@@ -2,6 +2,9 @@
 #   License, v. 2.0. If a copy of the MPL was not distributed with this
 #   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+
+$script:encodingWithoutBom = $([System.Text.UTF8Encoding]::new())
+
 function convertFromIniFormat($inputString)
 {
     $output = [ordered] @{}
@@ -58,8 +61,12 @@ function convertToIniFormat($inputHash)
 
 function writeIniFileWithoutBom($path, $inputhash)
 {
+    $filename = Split-Path $path -Leaf 
+    $dir = Split-Path $path 
+
+    $dir = New-Item -Itemtype Directory -Force $dir
+    $path = Join-Path $dir $filename
+
     $output = convertToIniFormat($inputHash)
-    $output = $(New-Object System.Text.UTF8Encoding($False)).GetBytes($output)
-    New-Item -Itemtype Directory -Force $(Split-path $path) > $null
-    Set-Content $path $output -Force -Encoding Byte  
+    [IO.File]::WriteAllText($path, $output)
 }
